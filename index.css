@@ -1,0 +1,23 @@
+.q0 {
+  fill: none !important;
+}
+
+.q1 {
+  fill: #bf0000;
+}
+
+.q2 {
+  fill: #820000;
+}
+
+.q3 {
+  fill: #590000;
+}
+
+.q4 {
+  fill: #3a0000;
+}
+
+[class*="q"] + title + .subdomain-text {
+  stroke: #E7E7E7;
+}

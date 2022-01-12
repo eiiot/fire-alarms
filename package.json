@@ -1,0 +1,26 @@
+{
+  "name": "firealarms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhsjacket/firealarms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhsjacket/firealarms/issues"
+  },
+  "homepage": "https://github.com/bhsjacket/firealarms#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.0.12"
+  },
+  "dependencies": {
+    "tailwindcss-children": "^2.1.0"
+  }
+}
