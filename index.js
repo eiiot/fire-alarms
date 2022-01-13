@@ -9,20 +9,78 @@ const csv = await response.text();
 // convert text to unix line breaks
 const lines = csv.replace(/\r/g, '');
 
-// convert csv to json with {date: period}
-const alarms = lines.split('\n').slice(1).map(line => {
-  const [date, period] = line.split(',');
-  const periodNum = Number(period);
-  return { date, periodNum };
-});
+const periods = {
+  monday: {
+    0: '9:00',
+    1: '9:57',
+    2: '10:46',
+    3: '11:40',
+    4: '12:23',
+    5: '13:09',
+    6: '13:58',
+    7: '14:47',
+  },
+  else: {
+    0: '7:23',
+    1: '8:27',
+    2: '9:31',
+    3: '10:40',
+    4: '12:24',
+    5: '13:28',
+    6: '14:32',
+    7: '15:36',
+  }
+}
+
+function timestampPeriod(inputDate,period) {
+  const date = new Date(`${inputDate}`);
+  if (period == undefined) {
+    const timestamp = date.getTime()/1000;
+
+    console.log(`period undefined, returning timestamp ${timestamp}`);
+
+    return timestamp;
+  }
+
+  console.log(`date ${inputDate}, period ${period}`);
+
+  // check if date is a monday
+  if (date.getDay() == 1) {
+    const startTime = periods.monday[period];
+
+    console.log(inputDate + ' ' + startTime);
+
+    // add time of day to date
+    const startDate = moment(inputDate + ' ' + startTime, 'MM/DD/YYYY HH:mm').toDate();
+
+    const timestamp = startDate.getTime()/1000;
+
+    return timestamp;
+  } else {
+    const startTime = periods.else[period];
+    console.log(inputDate + ' ' + startTime);
+    // add time of day to date
+    const startDate = moment(inputDate + ' ' + startTime, 'MM/DD/YYYY HH:mm').toDate();
+    console.log(startDate);
+
+    const timestamp = startDate.getTime()/1000;
+
+    return timestamp;
+  }
+}
 
 const data = {};
 
-alarms.forEach(alarm => {
-  const date = new Date(`${alarm.date}`);
-  const timestamp = date.getTime()/1000;
+// convert csv to json with {date: period}
+const alarms = lines.split('\n').slice(1).map(line => {
+  const [date, period] = line.split(',');
+  const timestamp = timestampPeriod(date, period);
   data[timestamp] = ++data[timestamp] || 1;
+  return { date, timestamp, period };
 });
+
+console.log('data', data);
+console.log('alarms', alarms);
 
 function durationAsString(start, end) {
   const duration = moment.duration(moment(end).diff(moment(start)));
@@ -42,19 +100,19 @@ function durationAsString(start, end) {
   return [daysFormatted, hoursFormatted, minutesFormatted].join('');
 }
 
-
 function updateData() {
   console.log('updating data');
 
-  const lastAlarm = new Date(`${alarms[alarms.length - 1].date}`);
+  const lastAlarm = new Date(alarms[alarms.length - 1].timestamp * 1000);
 
   timeSinceAlarmDiv.innerHTML = `Last alarm was ${durationAsString(lastAlarm,new Date())} ago`;
 };
 
 updateData();
 
-setInterval(updateData, 1000);
+setInterval(updateData, 60 * 1000);
 
+const monthsSinceAugust = moment().diff(moment('08/01/2021', 'MM/DD/YYYY'), 'months') + 1;
 
 cal.init({
   domain: "month",
@@ -67,5 +125,7 @@ cal.init({
   legend: [1,2,3],
   legendVerticalPosition: "top",
   data: data,
-  range: 9
+  range: monthsSinceAugust,
+  previousSelector: "#previous",
+	nextSelector: "#next"
 });

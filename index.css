@@ -26,4 +26,6 @@
   overflow-y: auto;
   width: 100% !important;
   padding: 2vh;
+  display: flex;
+  justify-content: center;
 }
