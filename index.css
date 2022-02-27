@@ -22,10 +22,15 @@
   stroke: #E7E7E7;
 }
 
-#cal-heatmap {
-  overflow-y: auto;
+/* #cal-heatmap {
+  overflow-y: scroll;
   width: 100% !important;
   padding: 2vh;
   display: flex;
   justify-content: center;
+} */
+
+.cal-heatmap-container{
+  width: 100% !important;
+  flex-shrink: 0;
 }

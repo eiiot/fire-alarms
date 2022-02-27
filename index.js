@@ -114,18 +114,39 @@ setInterval(updateData, 60 * 1000);
 
 const monthsSinceAugust = moment().diff(moment('08/01/2021', 'MM/DD/YYYY'), 'months') + 1;
 
-cal.init({
-  domain: "month",
-  subDomain: "x_day",
-  start: new Date(`2021-08-16T00:00:00-0800`), // start of school year
-  subDomainTextFormat: "%d",
-  itemName: ["alarm", "alarms"],
-  cellSize: 20,
-  domainGutter: 12,
-  legend: [1,2,3],
-  legendVerticalPosition: "top",
-  data: data,
-  range: monthsSinceAugust,
-  previousSelector: "#previous",
-	nextSelector: "#next"
-});
+// check if the screen width mobile or ipad, if so make the calendar vertical
+if (window.innerWidth < 768) {
+  cal.init({
+    domain: "month",
+    subDomain: "x_day",
+    start: new Date(`2021-08-16T00:00:00-0800`), // start of school year
+    subDomainTextFormat: "%d",
+    itemName: ["alarm", "alarms"],
+    cellSize: 40,
+    legendCellSize: 20,
+    domainGutter: 12,
+    legend: [1,2,3],
+    legendVerticalPosition: "top",
+    verticalOrientation: true,
+    data: data,
+    range: monthsSinceAugust,
+    previousSelector: "#previous",
+    nextSelector: "#next"
+  });
+} else {
+  cal.init({
+    domain: "month",
+    subDomain: "x_day",
+    start: new Date(`2021-08-16T00:00:00-0800`), // start of school year
+    subDomainTextFormat: "%d",
+    itemName: ["alarm", "alarms"],
+    cellSize: 20,
+    domainGutter: 12,
+    legend: [1,2,3],
+    legendVerticalPosition: "top",
+    data: data,
+    range: monthsSinceAugust,
+    previousSelector: "#previous",
+    nextSelector: "#next"
+  });
+};
