@@ -34,3 +34,11 @@
   width: max-content;
   flex-shrink: 0;
 }
+
+rect.now {
+  stroke: #bf0000;
+}
+
+text.now {
+  fill: #bf0000;
+}

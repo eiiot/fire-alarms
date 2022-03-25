@@ -123,10 +123,9 @@ cal.init({
   itemName: ["alarm", "alarms"],
   cellSize: 20,
   domainGutter: 12,
+  highlight: "now",
   legend: [1,2,3],
   legendVerticalPosition: "top",
   data: data,
   range: 11,
-  previousSelector: "#previous",
-  nextSelector: "#next"
 });
