@@ -31,6 +31,6 @@
 } */
 
 .cal-heatmap-container{
-  width: 100% !important;
+  width: max-content;
   flex-shrink: 0;
 }

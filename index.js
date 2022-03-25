@@ -32,49 +32,50 @@ const periods = {
   }
 }
 
-function timestampPeriod(inputDate,period) {
-  const date = new Date(`${inputDate}`);
-  if (period == undefined) {
-    const timestamp = date.getTime()/1000;
+// function timestampPeriod(inputDate,period) {
+//   const date = new Date(`${inputDate}`);
+//   if (period == undefined) {
+//     const timestamp = date.getTime()/1000;
 
-    console.log(`period undefined, returning timestamp ${timestamp}`);
+//     console.log(`period undefined, returning timestamp ${timestamp}`);
 
-    return timestamp;
-  }
+//     return timestamp;
+//   }
 
-  console.log(`date ${inputDate}, period ${period}`);
+//   console.log(`date ${inputDate}, period ${period}`);
 
-  // check if date is a monday
-  if (date.getDay() == 1) {
-    const startTime = periods.monday[period];
+//   // check if date is a monday
+//   if (date.getDay() == 1) {
+//     const startTime = periods.monday[period];
 
-    console.log(inputDate + ' ' + startTime);
+//     console.log(inputDate + ' ' + startTime);
 
-    // add time of day to date
-    const startDate = moment(inputDate + ' ' + startTime, 'MM/DD/YYYY HH:mm').toDate();
+//     // add time of day to date
+//     const startDate = moment(inputDate + ' ' + startTime, 'MM/DD/YYYY HH:mm').toDate();
 
-    const timestamp = startDate.getTime()/1000;
+//     const timestamp = startDate.getTime()/1000;
 
-    return timestamp;
-  } else {
-    const startTime = periods.else[period];
-    console.log(inputDate + ' ' + startTime);
-    // add time of day to date
-    const startDate = moment(inputDate + ' ' + startTime, 'MM/DD/YYYY HH:mm').toDate();
-    console.log(startDate);
+//     return timestamp;
+//   } else {
+//     const startTime = periods.else[period];
+//     console.log(inputDate + ' ' + startTime);
+//     // add time of day to date
+//     const startDate = moment(inputDate + ' ' + startTime, 'MM/DD/YYYY HH:mm').toDate();
+//     console.log(startDate);
 
-    const timestamp = startDate.getTime()/1000;
+//     const timestamp = startDate.getTime()/1000;
 
-    return timestamp;
-  }
-}
+//     return timestamp;
+//   }
+// }
 
 const data = {};
 
 // convert csv to json with {date: period}
 const alarms = lines.split('\n').slice(1).map(line => {
-  const [date, period] = line.split(',');
-  const timestamp = timestampPeriod(date, period);
+  const [date, period, time] = line.split(',');
+  console.log(`${date} ${period} ${time}`);
+  const timestamp = moment(`${date} ${time}`, 'MM/DD/YYYY HH:mm').toDate().getTime()/1000;
   data[timestamp] = ++data[timestamp] || 1;
   return { date, timestamp, period };
 });
@@ -105,48 +106,27 @@ function updateData() {
 
   const lastAlarm = new Date(alarms[alarms.length - 1].timestamp * 1000);
 
-  timeSinceAlarmDiv.innerHTML = `Last alarm was ${durationAsString(lastAlarm,new Date())} ago`;
+  timeSinceAlarmDiv.innerHTML = `Last alarm was ${durationAsString(lastAlarm,new Date())} ago<br>Total Alarms: ${alarms.length}`;
 };
 
 updateData();
 
 setInterval(updateData, 60 * 1000);
 
-const monthsSinceAugust = moment().diff(moment('08/01/2021', 'MM/DD/YYYY'), 'months') + 1;
+// const monthsSinceAugust = moment().diff(moment('08/01/2021', 'MM/DD/YYYY'), 'months') + 1;
 
-// check if the screen width mobile or ipad, if so make the calendar vertical
-if (window.innerWidth < 768) {
-  cal.init({
-    domain: "month",
-    subDomain: "x_day",
-    start: new Date(`2021-08-16T00:00:00-0800`), // start of school year
-    subDomainTextFormat: "%d",
-    itemName: ["alarm", "alarms"],
-    cellSize: 40,
-    legendCellSize: 20,
-    domainGutter: 12,
-    legend: [1,2,3],
-    legendVerticalPosition: "top",
-    verticalOrientation: true,
-    data: data,
-    range: monthsSinceAugust,
-    previousSelector: "#previous",
-    nextSelector: "#next"
-  });
-} else {
-  cal.init({
-    domain: "month",
-    subDomain: "x_day",
-    start: new Date(`2021-08-16T00:00:00-0800`), // start of school year
-    subDomainTextFormat: "%d",
-    itemName: ["alarm", "alarms"],
-    cellSize: 20,
-    domainGutter: 12,
-    legend: [1,2,3],
-    legendVerticalPosition: "top",
-    data: data,
-    range: monthsSinceAugust,
-    previousSelector: "#previous",
-    nextSelector: "#next"
-  });
-};
+cal.init({
+  domain: "month",
+  subDomain: "x_day",
+  start: new Date(`2021-08-16T00:00:00-0800`), // start of school year
+  subDomainTextFormat: "%d",
+  itemName: ["alarm", "alarms"],
+  cellSize: 20,
+  domainGutter: 12,
+  legend: [1,2,3],
+  legendVerticalPosition: "top",
+  data: data,
+  range: 11,
+  previousSelector: "#previous",
+  nextSelector: "#next"
+});

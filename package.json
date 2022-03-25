@@ -17,9 +17,6 @@
     "url": "https://github.com/bhsjacket/firealarms/issues"
   },
   "homepage": "https://github.com/bhsjacket/firealarms#readme",
-  "devDependencies": {
-    "tailwindcss": "^3.0.12"
-  },
   "dependencies": {
     "tailwindcss-children": "^2.1.0"
   }
