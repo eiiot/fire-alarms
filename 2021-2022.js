@@ -106,7 +106,14 @@ function updateData() {
 
   const lastAlarm = new Date(alarms[alarms.length - 1].timestamp * 1000);
 
-  timeSinceAlarmDiv.innerHTML = `Last alarm was ${durationAsString(lastAlarm,new Date())} ago<br>Total Alarms: ${alarms.length}`;
+  const alarmsBeforeJuly = alarms.filter(
+    (alarm) => alarm.timestamp < 1656658800
+  );
+
+  timeSinceAlarmDiv.innerHTML = `Last alarm was ${durationAsString(
+    lastAlarm,
+    new Date()
+  )} ago<br>Total Alarms: ${alarmsBeforeJuly.length}`;
 };
 
 updateData();
