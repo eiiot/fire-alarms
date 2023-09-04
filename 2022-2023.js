@@ -112,9 +112,9 @@ function updateData() {
 
   const lastAlarm = new Date(alarms[alarms.length - 1].timestamp * 1000);
 
-  // get alarms after july 1st
+  // get alarms after july 1st 2022 and before july 1st 2023
   const alarmsAfterJuly = alarms.filter(
-    (alarm) => alarm.timestamp > 1688194800
+    (alarm) => alarm.timestamp > 1656658800 && alarm.timestamp < 1688194800
   );
 
   timeSinceAlarmDiv.innerHTML = `Last alarm was ${durationAsString(
@@ -132,7 +132,7 @@ setInterval(updateData, 60 * 1000);
 cal.init({
   domain: "month",
   subDomain: "x_day",
-  start: new Date(`2023-08-15T00:00:00-0800`), // start of school year
+  start: new Date(`2022-08-15T00:00:00-0800`), // start of school year
   subDomainTextFormat: "%d",
   itemName: ["alarm", "alarms"],
   cellSize: 20,
